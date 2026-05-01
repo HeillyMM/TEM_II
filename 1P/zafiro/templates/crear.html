@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Registrar
+{% endblock %}
+
+{% block content %}
+    <form action="/registro" method="post" class="container">
+    <h1 class="text-center">Registra notas</h1>
+        <tr class="row">
+            <td class="col">Nombre: </td>
+            <td clas="col"><input  class="form-control mb-3" type="text" name="nombre"></td>
+        </tr><br><br>
+        <tr class="row">
+            <td class="col">Nota: </td>
+            <td class="col"><input  class="form-control mb-3" type="number" name="nota"></td>
+        </tr><br><br>
+        <tr class="row">
+        <button class="btn btn-success w-100">Guardar</button>        
+        </tr>
+    </form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Editar
+{% endblock %}
+
+{% block content %}
+    <h1>Registra notas</h1>
+    <form action="/guardar_edicion/{{nombre.id}}" method="post">
+        <tr>
+            <td>Nombre: </td>
+            <td><input type="text" name="nombre" value="{{nombre.nombre}}"></td>
+        </tr><br><br>
+        <tr>
+            <td>Nota: </td>
+            <td><input type="number" name="nota" value="{{nombre.nota}}"></td>
+        </tr><br><br>
+        <tr>
+            <td colspan="2"><input type="submit"></td>
+        </tr>
+    </form>
+{% endblock %}

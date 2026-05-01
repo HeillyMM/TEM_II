@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Notas
+{% endblock %}
+
+{% block content %}
+
+    <h1>Lista Notas de estudiantes</h1>
+    <a href="/crear">Registrar</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NOMBRE</th>
+                <th>NOTA</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in lista %}
+                <tr>
+                    <td>{{ registro.id }}</td>
+                    <td>{{ registro.nombre }}</td>
+                    <td>{{ registro.nota }}</td>
+                    <td><a href="/editar/{{registro.id}}">Editar</a></td>
+                    <td><a href="/eliminar/{{ registro.id }}">Eliminar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
