@@ -13,7 +13,7 @@ def init_db():
         db.create_all()
         print("base de datos creada")
 
-class Producto(db.Model):
+class Product(db.Model):
     __tablename__ = "productos"
     
     id = db.Column(db.Integer,primary_key=True)
@@ -28,7 +28,7 @@ class Producto(db.Model):
 
 def create_product(name,price,stock):
     with app.app_context():
-        producto = Producto(name=name,price=price,stock=stock)
+        producto = Product(name=name,price=price,stock=stock)
         db.session.add(producto)
         db.session.commit()
         print("Producto registrado")
@@ -37,7 +37,7 @@ def create_product(name,price,stock):
 def read_product(opcion):
     with app.app_context():
         if opcion == "1":
-            productos = Producto.query.all()
+            productos = Product.query.all()
             if productos:
                 print("Productos registrados:")
                 for producto in productos:
@@ -46,7 +46,7 @@ def read_product(opcion):
                 print("No se encontraron productos registrados")
         elif opcion == "2":
             precio = input("Filtrar productos con precio mayor a: ")
-            filtrados = Producto.query.filter(Producto.price>precio).all()
+            filtrados = Product.query.filter(Product.price>precio).all()
             if filtrados:
                 print(f"Productos con precio mayores a {precio}: ")
                 for filtrado in filtrados:
@@ -55,7 +55,7 @@ def read_product(opcion):
                 print(f"No se encontraron productos con precio mayor a {precio}")
         else:
             id = input("Id del producto a buscar: ")
-            producto = Producto.query.filter_by(id=id).first()
+            producto = Product.query.filter_by(id=id).first()
             if producto:
                 print(f"Producto con id {id}:")
                 print(f"nombre: {producto.name} | precio: {producto.price} | stock: {producto.stock}")
@@ -65,7 +65,7 @@ def read_product(opcion):
 # Update
 def update_product(id):
     with app.app_context():
-        producto = Producto.query.filter_by(id=id).first()
+        producto = Product.query.filter_by(id=id).first()
         if producto:
             print("1. Actualizar todo")
             print("2. Actualizar nombre")
@@ -103,7 +103,7 @@ def update_product(id):
 # Delete
 def delete_product(id):
     with app.app_context():
-        producto = Producto.query.filter_by(id=id).first()
+        producto = Product.query.filter_by(id=id).first()
         if producto:
             db.session.delete(producto)
             db.session.commit()
