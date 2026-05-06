@@ -114,7 +114,7 @@ def delete_product(id):
 if __name__ == "__main__":
     init_db()
     while True:
-        print("\nMenú de Product: ")
+        print("\nMenú de Productos: ")
         print("1. Registrar producto")
         print("2. Mostrar Productos registrados")
         print("3. Actualizar producto")
