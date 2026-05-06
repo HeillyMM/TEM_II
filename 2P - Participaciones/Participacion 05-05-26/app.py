@@ -54,51 +54,80 @@ def init_db():
         db.create_all()
         print("Base de datos creada correctamente!")
 
-def insertar_datos():
+def insertar_datos(opcion):
     with app.app_context():
+        if opcion == "1":
+            print("\n Crear autor: ")
+            nombre = input("Nombre del Autor: ")
+            nacionalidad = input("Nacionalidad del Autor: ")
+            autor = Autor(nombre=nombre, nacionalidad=nacionalidad)
+            db.session.add(autor)
+            db.session.commit()
+            print("Autor agregado Existosamente")
+        
+        elif opcion == "2":
+            print("Crear Libro: ")
+            titulo = input("Titulo de Libro: ")
+            anio = int(input("Año de publicación: "))
+            id_autor = int(input("Id del Autor: "))
+            autor = db.session.get(Autor,id_autor)
+            if autor:
+                libro = Libro(titulo=titulo,anio=anio,autor=autor)
+                db.session.add(libro)
+                cantidad_g = int(input("Cantidad de Géneros: "))
+                if cantidad_g:
+                    for i in range(cantidad_g):
+                        id_genero = int(input("Id del género: "))
+                        genero = db.session.get(Genero,id_genero)
+                        if genero:
+                            libro.generos.append(genero)
+                        else:
+                            print("Género no Encontrado")
+                db.session.commit()
+                print("Libro creado exitosamente")
+            else:
+                print("Autor no encontrado")
+        
+        elif opcion == "3":
+            print("Creando Género")
+            nombre = input("Nombre del género")
+            genero = Genero(nombre=nombre)
+            db.session.add(genero)
+            db.session.commit()
+            print("Género creado exitosamente")
 
-        # Autores
-        autor1 = Autor(nombre="Gabriel García Márquez", nacionalidad="Colombia")
-        autor2 = Autor(nombre="J.K. Rowling", nacionalidad="Reino Unido")
-        autor3 = Autor(nombre="George Orwell", nacionalidad="Reino Unido")
-
-        # Géneros
-        genero1 = Genero(nombre="Realismo mágico")
-        genero2 = Genero(nombre="Fantasía")
-        genero3 = Genero(nombre="Distopía")
-        genero4 = Genero(nombre="Novela")
-
-        # Libros
-        libro1 = Libro(titulo="Cien años de soledad", anio=1967, autor=autor1)
-        libro2 = Libro(titulo="El amor en los tiempos del cólera", anio=1985, autor=autor1)
-
-        libro3 = Libro(titulo="Harry Potter y el orden del fénix", anio=1997, autor=autor2)
-        libro4 = Libro(titulo="Harry Potter y la cámara secreta", anio=1998, autor=autor2)
-
-        libro5 = Libro(titulo="1984", anio=1949, autor=autor3)
-
-        # Guardando relación N a M
-        libro1.generos.extend([genero1, genero4])
-        libro2.generos.extend([genero1, genero4])
-
-        libro3.generos.extend([genero2, genero4])
-        libro4.generos.extend([genero2, genero4])
-
-        libro5.generos.extend([genero3, genero4])
-
-        db.session.add_all([autor1, autor2, autor3, 
-                            genero1, genero2, genero3, genero4, 
-                            libro1, libro2, libro3, libro4, libro5])
-
-        db.session.commit()
-        print("Datos insertados correctamente")
+def consultar_datos(opcion):
+    with app.app_context():
+        if opcion == "4":
+        # Ver autores con sus libros
+            print("\nAutores y libros publicados")
+            autores = Autor.query.all()
+            if autores:
+                for autor in autores:
+                    print(f"\n Autor: {autor.nombre}")
+                    for libro in autor.libros:
+                        print(f" - {libro.titulo}")
+            else:
+                print("No se encuentran Autores registrados")
+        if opcion == "5":
+        # Ver géneros con sus libros
+            print("\nGéneros y Sus libros relacionados")
+            generos = Genero.query.all()
+            if generos:
+                for genero in generos:
+                    print(f"\nGénero: {genero.nombre}")
+                    for libro in genero.libros:
+                        print(f" - {libro.titulo}")
+            else:
+                print("No se encontraron géneros registrados")
 
 def actualizar_datos():
     with app.app_context():
-        print("\nActualizar el nombre del libro con id 2") #Harry potter y el orden del fénix
-        libro = Libro.query.filter_by(id=2).first()
+        print("\nActualizar el titulo del libro") #Harry potter y el orden del fénix
+        id_libro = input("Ingrese el id del libro: ")
+        libro = Libro.query.filter_by(id=id_libro).first() 
         if libro:
-            libro.titulo = "Harry Portter y la cámara secreta"
+            libro.titulo = input("Nuevo titulo: ")
             db.session.commit()
             print("Titulo del libro actualizado existosamente")
         else: 
@@ -106,8 +135,9 @@ def actualizar_datos():
 
 def eliminar_datos():
     with app.app_context():
-        print("\n Eliminando autor con id 2") # J.K. rowling que tiene asociado 2 libros de harry potter
-        autor = Autor.query.filter_by(id=2).first()
+        print("\nEliminando Autor: ")
+        id_autor = input("Ingrese el id del autor a eliminar: ")
+        autor = Autor.query.filter_by(id=id_autor).first()
         if autor:
             db.session.delete(autor)
             db.session.commit()
@@ -116,7 +146,35 @@ def eliminar_datos():
             print("No se encontró el Autor")
 
 if __name__ == "__main__":
-#    init_db()
-#    insertar_datos()
-#    actualizar_datos()
-    eliminar_datos()
+    while True:
+        print("\n --- MENÚ BIBLIOTECA ---")
+
+        print("\nCREAR")
+        print("1. Crear autor")
+        print("2. Crear libro")
+        print("3. Crear género")
+
+        print("\nCONSULTAR")
+        print("4. Ver autores con sus libros")
+        print("5. Ver géneros con sus libros")
+
+        print("\nACTUALIZAR")
+        print("6. Actualizar título de libro")
+
+        print("\nELIMINAR")
+        print("7. Eliminar autor")
+
+        print("\n0. SALIR")
+        
+        opcion = input("\nElegir un opción: ")
+        
+        if opcion == "1" or opcion == "2" or opcion == "3":
+            insertar_datos(opcion)
+        elif opcion == "4" or opcion == "5":
+            consultar_datos(opcion)
+        elif opcion == "6":
+            actualizar_datos()
+        elif opcion == "7":
+            eliminar_datos()
+        elif opcion == "0":
+            break
