@@ -30,9 +30,6 @@ class Libro(db.Model):
     autor = db.relationship('Autor',back_populates="libros")
     generos = db.relationship('Genero',secondary=libro_genero,back_populates="libros")
 
-    def __repr__():
-        return f"Titulo:"
-
 class Autor(db.Model):
     __tablename__ = "autores"
     id = db.Column(db.Integer,primary_key=True)
@@ -90,7 +87,7 @@ def insertar_datos(opcion):
         
         elif opcion == "3":
             print("Creando Género")
-            nombre = input("Nombre del género")
+            nombre = input("Nombre del género: ")
             genero = Genero(nombre=nombre)
             db.session.add(genero)
             db.session.commit()
@@ -123,7 +120,7 @@ def consultar_datos(opcion):
 
 def actualizar_datos():
     with app.app_context():
-        print("\nActualizar el titulo del libro") #Harry potter y el orden del fénix
+        print("\nActualizar el titulo del libro")
         id_libro = input("Ingrese el id del libro: ")
         libro = Libro.query.filter_by(id=id_libro).first() 
         if libro:
@@ -146,6 +143,7 @@ def eliminar_datos():
             print("No se encontró el Autor")
 
 if __name__ == "__main__":
+    init_db()
     while True:
         print("\n --- MENÚ BIBLIOTECA ---")
 
