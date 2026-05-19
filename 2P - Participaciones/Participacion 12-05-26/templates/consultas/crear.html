@@ -8,6 +8,8 @@
             <h2 class="h4 text-white mb-4 fw-semibold"><i class="bi bi-file-earmark-plus me-2"></i>Agregar Consulta</h2>
             
             <form action="{{ url_for('consulta.crear') }}" method="POST">
+                <input type="hidden" name="id_paciente" id="id_paciente">
+
                 <div class="mb-3">
                     <label for="fecha" class="form-label text-white-50">Fecha</label>
                     <input name="fecha" type="date" class="form-control bg-dark border-secondary text-white" id="fecha" required>
@@ -25,10 +27,10 @@
 
                 <div class="mb-3">
                     <label for="id_cita" class="form-label text-white-50">Seleccionar Paciente / Cita Agenda</label>
-                    <select name="id_cita" id="id_cita" class="form-select bg-dark border-secondary text-white" required>
+                    <select name="id_cita" id="id_cita" class="form-select bg-dark border-secondary text-white" required onchange="actualizarPaciente(this)">
                         <option value="" disabled selected>-- Seleccione la cita a atender --</option>
                         {% for cita in citas %}
-                            <option value="{{ cita.id_cita }}">
+                            <option value="{{ cita.id_citas }}" data-paciente="{{ cita.paciente.id_paciente }}">
                                 {{ cita.hora }} - Paciente: {{ cita.paciente.nombre }}
                             </option>
                         {% endfor %}
@@ -44,5 +46,13 @@
         </div>
     </div>
 </div>
+
+<script>
+function actualizarPaciente(selectElement) {
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const idPaciente = selectedOption.getAttribute('data-paciente');
+    document.getElementById('id_paciente').value = idPaciente;
+}
+</script>
 
 {% endblock %}

@@ -63,12 +63,12 @@ def crear():
         id_paciente = request.form['id_paciente']
         id_medico = medico.id_medico
         
-        consulta = Consulta(fecha,diagnostico,tratamiento,id_paciente,id_medico)
-        consulta.guardar()
-
         id_cita_seleccionada = request.form['id_cita']
         cita_asociada = Cita.cita(id_cita_seleccionada)
-        cita_asociada.actualizar(estado="Completada")
+        cita_asociada.actualizar(estado="completada")
+
+        consulta = Consulta(fecha,diagnostico,tratamiento,id_cita_seleccionada,id_paciente,id_medico)
+        consulta.guardar()
 
         return redirect( url_for('consulta.menu') )
     

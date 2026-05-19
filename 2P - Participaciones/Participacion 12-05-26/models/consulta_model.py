@@ -22,10 +22,11 @@ class Consulta(db.Model):
     paciente = db.relationship('Paciente',back_populates ="consultas")
     cita = db.relationship('Cita', back_populates='consulta')
 
-    def __init__(self,fecha,diagnostico,tratamiento,id_paciente,id_medico):
+    def __init__(self,fecha,diagnostico,tratamiento,id_cita,id_paciente,id_medico):
         self.fecha = fecha
         self.diagnostico = diagnostico
         self.tratamiento = tratamiento
+        self.id_cita = id_cita
         self.id_paciente = id_paciente
         self.id_medico = id_medico
 
