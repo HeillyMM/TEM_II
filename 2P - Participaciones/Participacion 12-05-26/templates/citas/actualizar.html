@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Actualizar Cita{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card bg-dark border-secondary shadow-sm p-4">
+            <h2 class="h4 text-white mb-4 fw-semibold">
+                <i class="bi bi-file-earmark-plus me-2"></i>Actualizar Cita
+            </h2>
+            
+            <form action="{{ url_for('cita.actualizar',id=cita.id_citas) }}" method="POST">
+                <input type="hidden" name="id_cita" value="{{ cita.id_cita }}">
+
+                <div class="mb-3">
+                    <label for="fecha" class="form-label text-white-50">Fecha</label>
+                    <input name="fecha" type="date" class="form-control bg-dark border-secondary text-white" id="fecha" value="{{ cita.fecha }}" {% if session['rol'] == 'medico' %}disabled{% endif %} required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="hora" class="form-label text-white-50">Hora</label>
+                    <input name="hora" type="time" step="60" class="form-control bg-dark border-secondary text-white" id="hora" value="{{ cita.hora.strftime('%H:%M') if cita.hora else '' }}" {% if session['rol'] == 'medico' %}disabled{% endif %} required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="motivo" class="form-label text-white-50">Motivo</label>
+                    <textarea name="motivo" class="form-control bg-dark border-secondary text-white" id="motivo" rows="3" {% if session['rol'] == 'medico' %}disabled{% endif %} required>{{ cita.motivo }}</textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_paciente" class="form-label text-white-50">Paciente</label>
+                    <select id="id_paciente" name="id_paciente" class="form-select bg-dark border-secondary text-white" {% if session['rol'] == 'medico' %}disabled{% endif %} required>
+                        {% for paciente in pacientes %}
+                            <option value="{{ paciente.id_paciente }}" {% if paciente.id_paciente == cita.id_paciente %}selected{% endif %}>
+                                {{ paciente.nombre }}
+                            </option>       
+                        {% endfor %}                 
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_medico" class="form-label text-white-50">Médico</label>
+                    <select id="id_medico" name="id_medico" class="form-select bg-dark border-secondary text-white" {% if session['rol'] == 'medico' %}disabled{% endif %} required>
+                        {% for medico in medicos %}
+
+                            <option value="{{ medico.id_medico }}" {% if medico.id_medico == cita.id_medico %}selected{% endif %}>
+                                {{ medico.nombre }}
+                            </option>       
+                        {% endfor %}                 
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_medico" class="form-label text-white-50">Estado</label>
+                    <select id="id_medico" name="estado" class="form-select bg-dark border-secondary text-white" required>
+                            <option value="pendiente" {%if cita.estado == 'pendiente' %}selected{% endif %}>Pendiente</option>       
+                            <option value="completado" {%if cita.estado == 'completado' %}selected{% endif %}>Completado</option>       
+                            <option value="cancelado" {%if cita.estado == 'cancelado' %}selected{% endif %}>Cancelado</option>       
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-light w-100 fw-semibold">Guardar Cambios</button>
+            </form>
+            
+            <div class="text-center mt-3">
+                <a href="{{ url_for('cita.menu') }}" style="color:rgba(255, 255, 255, 0.7); text-decoration: none;">← Volver</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card bg-dark border-secondary shadow-sm p-4">
+            <h2 class="h4 text-white mb-4 fw-semibold"><i class="bi bi-person-plus me-2"></i>LOGIN</h2>
+            
+            <form action="{{ url_for('usuarios.login') }}" method="POST">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label text-white-50">Usuario:</label>
+                    <input name="username" type="text" class="form-control bg-dark border-secondary" id="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="especialidad" class="form-label text-white-50">Contraseña:</label>
+                    <input name="password" type="password" class="form-control bg-dark border-secondary" id="especialidad" required>
+                </div>
+                <button type="submit" class="btn btn-light w-100 fw-semibold">Entrar</button><br><br>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

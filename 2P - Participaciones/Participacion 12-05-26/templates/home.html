@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block title %}Panel de Administración - MediWeb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    
+    <div class="mb-4">
+        <h2 class="fw-semibold text-white">INICIO</h2>
+        <p class="text-white-50">Bienvenido, <span class="text-white fw-semibold">{{ session.get('username', 'Usuario') }}</span>. Gestiona los módulos de la clínica desde aquí.</p>
+    </div>
+
+    <div class="row g-4">
+
+        {% if session['rol'] == 'admin' %}
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card bg-dark border-secondary h-100 shadow-sm hover-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-secondary bg-opacity-25 p-2 rounded text-white me-3">
+                            <i class="bi bi-heart-pulse fs-3"></i>
+                        </div>
+                        <h5 class="card-title text-white mb-0 fw-semibold">Médicos</h5>
+                    </div>
+                    <p class="card-text text-white-50 small flex-grow-1">Administra el personal médico, añade especialistas y edita sus horarios de atención.</p>
+                    <div class="d-grid mt-3">
+                        <a href="{{ url_for('medico.menu') }}" class="btn btn-outline-light border-secondary btn-sm">
+                            <i class="bi bi-people me-2"></i>Gestionar Médicos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card bg-dark border-secondary h-100 shadow-sm hover-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-secondary bg-opacity-25 p-2 rounded text-white me-3">
+                            <i class="bi bi-person-gear fs-3"></i>
+                        </div>
+                        <h5 class="card-title text-white mb-0 fw-semibold">Pacientes</h5>
+                    </div>
+                    <p class="card-text text-white-50 small flex-grow-1">
+                        {% if session['rol'] == 'admin' %}
+                        Administra los pacientes registrados, añade pacientes y edita sus informaciones.
+                        {% else %}
+                        Ver Pacientes históricos y sus consultas hechas en la clínica.
+                        {% endif %}
+                    </p>
+                    <div class="d-grid mt-3">
+                        <a href="{{ url_for('paciente.menu') }}" class="btn btn-outline-light border-secondary btn-sm">
+                            <i class="bi bi-person-lines-fill me-2"></i>
+                            {% if session['rol'] == 'admin' %}
+                            Gestionar Pacientes
+                            {% else %}
+                            Ver Pacientes
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card bg-dark border-secondary h-100 shadow-sm hover-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-secondary bg-opacity-25 p-2 rounded text-white me-3">
+                            <i class="bi bi-calendar3 fs-3"></i>
+                        </div>
+                        <h5 class="card-title text-white mb-0 fw-semibold">Citas</h5>
+                    </div>
+                    <p class="card-text text-white-50 small flex-grow-1">
+                        {% if session['rol'] == 'admin' %}
+                        Gestiona la programación de citas, asigna médicos y controla los estados de atención generales.
+                        {% else %}
+                        Revisa tu agenda de citas asignadas, cambia estados y organiza tus consultas pendientes.
+                        {% endif %}
+                    </p>
+                    <div class="d-grid mt-3">
+                        <a href="{{ url_for('cita.menu') }}" class="btn btn-outline-light border-secondary btn-sm">
+                            <i class="bi bi-calendar-check me-2"></i>
+                            {% if session['rol'] == 'admin' %}
+                            Gestionar Citas
+                            {% else %}
+                            Ver Mi Agenda
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if session['rol'] == 'medico' %}
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card bg-dark border-secondary h-100 shadow-sm hover-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-secondary bg-opacity-25 p-2 rounded text-white me-3">
+                            <i class="bi bi-file-earmark-medical fs-3"></i>
+                        </div>
+                        <h5 class="card-title text-white mb-0 fw-semibold">Consultas</h5>
+                    </div>
+                    <p class="card-text text-white-50 small flex-grow-1">Administra las consultas clínicas registradas, añade diagnósticos y tratamientos realizados.</p>
+                    <div class="d-grid mt-3">
+                        <a href="{{ url_for('consulta.menu') }}" class="btn btn-outline-light border-secondary btn-sm">
+                            <i class="bi bi-person-lines-fill me-2"></i>Gestionar Consultas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if session['rol'] == 'admin' %}
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card bg-dark border-secondary h-100 shadow-sm hover-card">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-secondary bg-opacity-25 p-2 rounded text-white me-3">
+                            <i class="bi bi-shield-lock fs-3"></i>
+                        </div>
+                        <h5 class="card-title text-white mb-0 fw-semibold">Credenciales</h5>
+                    </div>
+                    <p class="card-text text-white-50 small flex-grow-1">Controla los accesos de usuarios al sistema, edita roles de administrador y asigna cuentas a médicos.</p>
+                    <div class="d-grid mt-3">
+                        <a href="{{ url_for('usuarios.mostrar_usuarios') }}" class="btn btn-outline-light border-secondary btn-sm">
+                            <i class="bi bi-key me-2"></i>Gestionar Usuarios
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .hover-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+</style>
+{% endblock %}

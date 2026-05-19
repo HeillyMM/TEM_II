@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Usuarios{% endblock %}
+{% block content %}
+
+<div class="row align-items-center mb-4 g-3">
+    <div class="col-12">
+        <h2 class="h4 text-white m-0 fw-semibold">Control de Usuarios del Sistema</h2>
+    </div>
+</div>
+
+<div class="row row-cols-1 g-3">
+    {% for usuario in usuarios %}
+    <div class="col">
+        <div class="card bg-dark border-secondary shadow-sm text-white">
+            <div class="card-body px-4 py-3">
+                <div class="row align-items-center g-3">
+                    
+                    <div class="col-12 col-md-3 border-end-md border-secondary border-opacity-25">
+                        <span class="text-white-50 small d-block fw-semibold text-uppercase fs-7 mb-1">Nombre de Usuario</span>
+                        <p class="card-text small text-white mb-0 fw-medium">
+                            <i class="bi bi-person-badge me-2 text-white-50"></i>{{ usuario.username }}
+                        </p>
+                    </div>
+
+                    <div class="col-12 col-md-3 border-end-md border-secondary border-opacity-25">
+                        <span class="text-white-50 small d-block fw-semibold text-uppercase fs-7 mb-1">Correo Electrónico</span>
+                        <p class="card-text small text-white mb-0 fw-medium">
+                            <i class="bi bi-envelope me-2 text-white-50"></i>{{ usuario.correo }}
+                        </p>
+                    </div>
+
+                    <div class="col-12 col-md-2 border-end-md border-secondary border-opacity-25">
+                        <span class="text-white-50 small d-block fw-semibold text-uppercase fs-7 mb-1">Rol</span>
+                        <span class="badge {% if usuario.rol == 'admin' %}bg-light text-dark{% else %}bg-secondary{% endif %} text-uppercase fs-7 mt-1">
+                            {{ usuario.rol }}
+                        </span>
+                    </div>
+
+                    <div class="col-12 col-md-2 border-end-md border-secondary border-opacity-25">
+                        <span class="text-white-50 small d-block fw-semibold text-uppercase fs-7 mb-1">Personal Asociado</span>
+                        <p class="card-text small text-white-50 mb-0">
+                            {% if usuario.medico %}
+                                <i class="bi bi-doctor me-1"></i>Dr/a. {{ usuario.medico.nombre }}
+                            {% else %}
+                                <span class="text-muted small">Ninguno (Admin)</span>
+                            {% endif %}
+                        </p>
+                    </div>
+            
+                    <div class="col-12 col-md-2 text-md-end">
+                        <div class="btn-group gap-2">
+                            <a href="{{ url_for('usuarios.actualizar_usuario', id=usuario.id_usuario) }}" class="btn btn-sm btn-outline-light border-secondary p-2" title="Modificar credenciales">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="{{ url_for('usuarios.eliminar', id=usuario.id_usuario) }}" class="btn btn-sm btn-outline-light border-secondary p-2" title="Eliminar usuario">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col text-center text-muted py-5">
+        <i class="bi bi-shield-slash fs-1 d-block mb-2"></i>
+        No hay usuarios registrados en la base de datos.
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

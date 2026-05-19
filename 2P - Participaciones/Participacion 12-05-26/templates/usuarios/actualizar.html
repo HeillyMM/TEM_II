@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Actualizar Credenciales{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card bg-dark border-secondary shadow-sm p-4">
+            <h2 class="h4 text-white mb-4 fw-semibold"><i class="bi bi-shield-lock me-2"></i>Modificar Usuario</h2>
+            
+            <form action="{{ url_for('usuarios.actualizar_usuario', id=usuario.id_usuario) }}" method="POST">
+                
+                <div class="mb-3">
+                    <label for="username" class="form-label text-white-50">Nombre de Usuario</label>
+                    <input name="username" type="text" class="form-control bg-dark border-secondary text-white" id="username" value="{{ usuario.username }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="correo" class="form-label text-white-50">Correo Electrónico</label>
+                    <input name="correo" type="email" class="form-control bg-dark border-secondary text-white" id="correo" value="{{ usuario.correo }}" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="password" class="form-label text-white-50">Nueva Contraseña</label>
+                    <input name="password" type="password" class="form-control bg-dark border-secondary text-white" id="password" placeholder="Dejar en blanco para no cambiar">
+                </div>
+                
+                <button type="submit" class="btn btn-light w-100 fw-semibold">Guardar Cambios</button>
+            </form>
+            
+            <a href="{{ url_for('usuarios.mostrar_usuarios') }}" class="text-white-50 text-decoration-none d-block text-center mt-3">
+                ← Volver a Usuarios
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

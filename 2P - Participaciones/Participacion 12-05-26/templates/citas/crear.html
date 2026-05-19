@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Agregar Cita{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card bg-dark border-secondary shadow-sm p-4">
+            <h2 class="h4 text-white mb-4 fw-semibold">
+                <i class="bi bi-file-earmark-plus me-2"></i>Agregar Cita
+            </h2>
+            
+            <form action="{{ url_for('cita.crear') }}" method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label text-white-50">Fecha</label>
+                    <input name="fecha" type="date" class="form-control bg-dark border-secondary text-white" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white-50">Hora</label>
+                    <input name="hora" type="time" class="form-control bg-dark border-secondary text-white" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white-50">Motivo</label>
+                    <textarea name="motivo" class="form-control bg-dark border-secondary text-white" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-white-50">Paciente</label>
+                    <select name="id_paciente" class="form-select bg-dark border-secondary text-white" required>
+                        <option value="">Seleccione un paciente...</option>                        
+                        {% for paciente in pacientes %}
+                            <option value="{{ paciente.id_paciente }}">{{ paciente.nombre }}</option>       
+                        {% endfor %}                 
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-white-50">Médico</label>
+                    <select name="id_medico" class="form-select bg-dark border-secondary text-white" required>
+                        <option value="">Seleccione un médico...</option>                        
+                        {% for medico in medicos %}
+                            <option value="{{ medico.id_medico }}">{{ medico.nombre }}</option>       
+                        {% endfor %}                 
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-light w-100 fw-semibold mb-3">Agregar Cita</button>
+            </form>
+            
+            <div class="text-center">
+                <a href="{{ url_for('cita.menu') }}" class="text-white-50 text-decoration-none">← Volver</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

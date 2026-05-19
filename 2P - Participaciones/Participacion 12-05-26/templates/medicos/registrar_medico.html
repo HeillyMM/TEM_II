@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Agregar Médico{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card bg-dark border-secondary shadow-sm p-4">
+            <h2 class="h4 text-white mb-4 fw-semibold"><i class="bi bi-person-plus me-2"></i>Agregar Médico</h2>
+            
+            <form action="{{ url_for('medico.registrar') }}" method="POST">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label text-white-50">Nombre</label>
+                    <input name="nombre" type="text" class="form-control bg-dark border-secondary" id="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="especialidad" class="form-label text-white-50">Especialidad</label>
+                    <input name="especialidad" type="text" class="form-control bg-dark border-secondary" id="especialidad" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label text-white-50">Teléfono</label>
+                    <input name="telefono" type="tel" class="form-control bg-dark border-secondary" id="telefono">
+                </div>
+                <div class="mb-4">
+                    <label for="correo" class="form-label text-white-50">Correo Electrónico</label>
+                    <input name="correo" type="email" class="form-control bg-dark border-secondary" id="correo">
+                </div>
+                <button type="submit" class="btn btn-light w-100 fw-semibold">Agregar Médico</button><br><br>
+            </form>
+            <a href="{{ url_for('medico.menu') }}" style="color:rgba(255, 255, 255, 0.699); text-align: center; text-decoration: none;">← Volver</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

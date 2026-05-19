@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Actualizar consulta{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card bg-dark border-secondary shadow-sm p-4">
+            <h2 class="h4 text-white mb-4 fw-semibold"><i class="bi bi-pencil-square me-2"></i>Actualizar Consulta</h2>
+            
+            <form action="{{ url_for('consulta.actualizar', id=consulta.id_consulta) }}" method="POST">
+                
+                <div class="mb-3">
+                    <label for="fecha" class="form-label text-white-50">Fecha</label>
+                    <input name="fecha" type="date" class="form-control bg-dark border-secondary text-white" id="fecha" value="{{ consulta.fecha }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="diagnostico" class="form-label text-white-50">Diagnóstico</label>
+                    <textarea name="diagnostico" class="form-control bg-dark border-secondary text-white" id="diagnostico" rows="3" required>{{ consulta.diagnostico }}</textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="tratamiento" class="form-label text-white-50">Tratamiento</label>
+                    <textarea name="tratamiento" class="form-control bg-dark border-secondary text-white" id="tratamiento" rows="3">{{ consulta.tratamiento }}</textarea>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="id_paciente" class="form-label text-white-50">Paciente</label>
+                    <select id="id_paciente" name="id_paciente" class="form-select bg-dark text-white border-secondary" required>
+                        {% for paciente in pacientes %}
+                            <option value="{{ paciente.id_paciente }}" {% if paciente.id_paciente == consulta.id_paciente %}selected{% endif %}>
+                                {{ paciente.nombre }}
+                            </option>       
+                        {% endfor %}                 
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-light w-100 fw-semibold">Actualizar Consulta</button>
+            </form>
+            
+            <a href="{{ url_for('consulta.menu') }}" class="text-white-50 text-decoration-none d-block text-center mt-3">
+                ← Volver
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

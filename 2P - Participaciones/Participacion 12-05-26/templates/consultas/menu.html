@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Consultas{% endblock %}
+{% block content %}
+
+<div class="row align-items-center mb-4 g-3">
+    <div class="col-12 col-md-4">
+        <h2 class="h4 text-white m-0 fw-semibold">Lista de Consultas Hechas</h2>
+    </div>
+    
+    <div class="col-12 col-sm-8 col-md-5">
+        <form action="{{ url_for('consulta.menu') }}" method="POST" class="d-flex gap-2">
+            <div class="input-group">
+                <input name="fecha" type="date" class="form-control bg-dark border-secondary text-white" required>
+                <button type="submit" class="btn btn-outline-light border-secondary px-3">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+            </div>
+            
+            <a href="{{ url_for('consulta.menu') }}" class="btn btn-sm btn-outline-secondary d-flex align-items-center px-2" title="Restaurar lista">
+                <i class="bi bi-arrow-clockwise fs-5"></i>
+            </a>
+        </form>
+    </div>
+
+    <div class="col-12 col-sm-4 col-md-3 text-sm-end">
+        <a href="{{ url_for('consulta.crear') }}" class="btn btn-light fw-semibold w-60 w-sm-auto">Registrar Consulta</a>
+    </div>
+</div>
+
+<div class="row row-cols-1 g-3">
+    {% for consulta in consultas %}
+    <div class="col">
+        <div class="card bg-dark border-secondary shadow-sm text-white">
+            
+            <div class="card-header border-secondary text-white-50 bg-secondary bg-opacity-10 d-flex justify-content-between align-items-center py-2 px-4">
+                <span class="small"><i class="bi bi-calendar3 me-2 text-secondary"></i>Fecha de Consulta</span>
+                <span class="text-white fw-medium small">{{ consulta.fecha }}</span>
+            </div>
+            
+            <div class="card-body px-4 py-3">
+                <div class="row align-items-start g-3">
+                    
+                    <div class="col-12 col-md-3 border-end-md border-secondary border-opacity-25">
+                        <span class="text-white-50 small d-block fw-semibold text-uppercase fs-7 mb-1">Paciente</span>
+                        <p class="card-text small text-white mb-0 fw-medium">
+                            <i class="bi bi-person me-2 text-white-50"></i>{{ consulta.paciente.nombre }}
+                        </p>
+                    </div>
+                    
+                    <div class="col-12 col-md-4 border-end-md border-secondary border-opacity-25">
+                        <span class="text-white-50 small d-block fw-semibold text-uppercase fs-7 mb-1">Diagnóstico</span>
+                        <p class="card-text small text-white mb-0 fw-medium" style="white-space: pre-wrap;">{{ consulta.diagnostico }}</p>
+                    </div>
+                    
+                    <div class="col-12 col-md-3 border-end-md border-secondary border-opacity-25">
+                        <span class="text-white-50 small d-block fw-semibold text-uppercase fs-7 mb-1">Tratamiento</span>
+                        <p class="card-text small text-white mb-0 fw-medium" style="white-space: pre-wrap;">{{ consulta.tratamiento if consulta.tratamiento else 'No especificado' }}</p>
+                    </div>
+                    
+                    <div class="col-12 col-md-2 text-md-end">
+                        <div class="btn-group gap-2">
+                            <a href="{{ url_for('consulta.actualizar', id=consulta.id_consulta) }}" class="btn btn-sm btn-outline-light border-secondary p-2" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="{{ url_for('consulta.eliminar', id=consulta.id_consulta) }}" class="btn btn-sm btn-outline-danger p-2" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% else %}
+    <div class="col text-center text-muted py-5">
+        <i class="bi bi-folder-x fs-1 d-block mb-2"></i>
+        No hay consultas registradas para los criterios seleccionados.
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

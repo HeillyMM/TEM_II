@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Agregar consulta{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card bg-dark border-secondary shadow-sm p-4">
+            <h2 class="h4 text-white mb-4 fw-semibold"><i class="bi bi-file-earmark-plus me-2"></i>Agregar Consulta</h2>
+            
+            <form action="{{ url_for('consulta.crear') }}" method="POST">
+                <div class="mb-3">
+                    <label for="fecha" class="form-label text-white-50">Fecha</label>
+                    <input name="fecha" type="date" class="form-control bg-dark border-secondary text-white" id="fecha" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="diagnostico" class="form-label text-white-50">Diagnóstico</label>
+                    <textarea name="diagnostico" class="form-control bg-dark border-secondary text-white" id="diagnostico" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tratamiento" class="form-label text-white-50">Tratamiento</label>
+                    <textarea name="tratamiento" class="form-control bg-dark border-secondary text-white" id="tratamiento" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_cita" class="form-label text-white-50">Seleccionar Paciente / Cita Agenda</label>
+                    <select name="id_cita" id="id_cita" class="form-select bg-dark border-secondary text-white" required>
+                        <option value="" disabled selected>-- Seleccione la cita a atender --</option>
+                        {% for cita in citas %}
+                            <option value="{{ cita.id_cita }}">
+                                {{ cita.hora }} - Paciente: {{ cita.paciente.nombre }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-light w-100 fw-semibold">Agregar Consulta</button>
+            </form>
+            
+            <a href="{{ url_for('consulta.menu') }}" class="text-white-50 text-decoration-none d-block text-center mt-3">
+                ← Volver
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
