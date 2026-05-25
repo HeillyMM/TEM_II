@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content%}
+<h1>Listado de miembros</h1>
+<a href="{{ url_for('bp_miembro.create') }}">Nuevo miembro </a>
+
+<ul>
+    {% for item in miembros %}
+    <li>Nombre: {{ item.nombre}} Email: {{ item.email }}</li>
+    {% else %}
+    <li>No hay miembros</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

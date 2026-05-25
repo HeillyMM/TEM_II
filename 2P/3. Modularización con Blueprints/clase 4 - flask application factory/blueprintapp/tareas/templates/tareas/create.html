@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h1>Crear Tarea</h1>
+<form action="{{ url_for('bp_tarea.create') }}" method="POST">
+    <label for="">Descripcion:</label>
+    <input type="text" name="descripcion" placeholder="Descripcion" required="required">
+    <input type="checkbox" name="completado"> Completado
+    <input type="submit" value="Enviar">
+</form>
+{% endblock%}

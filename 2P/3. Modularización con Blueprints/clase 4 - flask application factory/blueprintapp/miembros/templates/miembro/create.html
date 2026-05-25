@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h1>Crear Miembro</h1>
+<form action="{{ url_for('bp_miembro.create') }}" method="POST">
+    <label for="">Nombre:</label>
+    <input type="text" name="nombre" placeholder="Nombre" required="required">
+    <label for="">Correo:</label>
+    <input type="email" name="email" placeholder="Correo" required="required">
+    <input type="submit" value="Enviar">
+
+</form>
+{% endblock%}

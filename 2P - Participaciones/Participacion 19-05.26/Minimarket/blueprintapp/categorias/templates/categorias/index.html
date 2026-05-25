@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content-area">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Categorías</h2>
+            <p class="text-muted mb-0">Gestión de categorias</p>
+        </div>
+
+        <a href="{{url_for('bp_categoria.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nueva categoria</a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for categoria in categorias %}
+                        <tr>
+                            <td>{{ categoria.id }}</td>
+                            <td class="fw-semibold">{{ categoria.nombre }}</td>
+                            <td>{{ categoria.descripcion }}</td>
+                            <td class="text-center">
+                                <a href="{{url_for('bp_categoria.update',id=categoria.id)}}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a href="{{url_for('bp_categoria.delete',id=categoria.id)}}" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
