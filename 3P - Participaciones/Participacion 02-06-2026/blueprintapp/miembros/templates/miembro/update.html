@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="modern-card">
+
+            <div class="mb-4">
+                <h2 class="fw-bold">Actualizar Miembro</h2>
+            </div>
+
+            <form action="{{url_for('bp_miembro.update',id=miembro.id)}}" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nombre</label>
+                    <input 
+                        type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre" value="{{miembro.nombre}}">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Ingrese el email" value="{{miembro.email}}">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Contraseña</label>
+                    <input type="password" name="password" class="form-control" placeholder="Ingrese el email" value="{{miembro.password}}">
+                </div>
+                {% if current_user.tipo == "admin" %}
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Tipo de usuario</label>
+                    <select name="tipo" class="form-select" required>
+                        <option value="admin" {% if miembro.tipo == "admin" %}selected{% endif %}>Admin</option>
+                        <option value="miembro" {% if miembro.tipo == "miembro" %}selected{% endif %}>Miembro</option>
+                    </select>
+                </div>
+                {% endif %}
+                <div class="d-flex gap-2">
+
+                    <button type="submit" class="btn btn-pink px-4"><i class="bi bi-check-circle"></i>Guardar</button>
+                    <a href="{{url_for('bp_miembro.index')}}" class="btn btn-light">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

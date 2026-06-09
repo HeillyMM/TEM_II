@@ -1,0 +1,1 @@
+# Permite el trat de cada carpeta como un paquete. Un constructor

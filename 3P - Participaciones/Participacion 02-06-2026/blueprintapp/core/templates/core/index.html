@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %} Inicio {% endblock %}
+
+{% block content %}
+
+<div class="d-flex align-items-center mb-4 text-center">
+    <div>
+        <h2 class="fw-bold">Panel Principal - ¡Bienvenido, {{ current_user.nombre }}!</h2>
+    </div>
+</div>
+
+<div class="row g-4">
+
+    <!-- TARJETAS -->
+    <div class="col-md-6">
+        <div class="modern-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="fw-bold">Tareas</h4>
+                    <p class="text-muted mb-0">Gestión de tareas</p>
+                </div>
+
+                <i class="bi bi-check2-square fs-1"></i>
+            </div>
+
+            <a href="{{url_for('bp_tarea.index')}}" class="btn btn-pink">Ver tareas</a>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="modern-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="fw-bold">Miembros</h4>
+                    <p class="text-muted mb-0">Administración de miembros</p>
+                </div>
+                <i class="bi bi-people fs-1 text-danger"></i>
+            </div>
+
+            <a href="{{url_for('bp_miembro.index')}}" class="btn btn-pink">Ver miembros</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

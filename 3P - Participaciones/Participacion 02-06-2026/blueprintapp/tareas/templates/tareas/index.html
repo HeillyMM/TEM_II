@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Listado de Tareas</h2>
+        {% if current_user.tipo == "admin" %}
+            <p class="text-muted mb-0">Administra las tareas registradas</p>
+        {% else %}
+            <p class="text-muted mb-0">Tareas asignadas</p>
+        {% endif %}
+    </div>
+
+    {% if current_user.tipo == "admin" %}
+        <div class="d-flex align-items-center gap-3">
+            <div class="mb-0">
+                <input type="radio" name="filtro" value="todos" id="filtro-todos" checked> 
+                <label for="filtro-todos">Todos</label>
+                <input type="radio" name="filtro" value="completado" id="filtro-si"> 
+                <label for="filtro-si">Completados</label>
+                <input type="radio" name="filtro" value="pendiente" id="filtro-no"> 
+                <label for="filtro-no">Pendientes</label>
+            </div>
+            <a href="{{ url_for('bp_tarea.create') }}" class="btn btn-pink">
+                <i class="bi bi-plus-circle"></i> Nueva Tarea
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="modern-card" id="lista-tareas">
+    {% for tarea in tareas %}
+    <div class="tarea-card d-flex justify-content-between align-items-center py-3 border-bottom"
+         data-estado="{{ 'completado' if tarea.completado else 'pendiente' }}">
+
+        <div>
+            <h5 class="mb-1 fw-semibold">{{ tarea.descripcion }}</h5>
+            <p class="text-muted mb-0">{{ tarea.miembro.nombre }}</p>
+            {% if tarea.completado %}
+                <span class="badge bg-success">
+                    <i class="bi bi-check-circle"></i> Completada
+                </span>
+            {% else %}
+                <span class="badge bg-warning text-dark">
+                    <i class="bi bi-clock"></i> Pendiente
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="d-flex gap-2">
+            {% if current_user.tipo == "admin" %}
+                <a href="{{ url_for('bp_tarea.update', id=tarea.id) }}" class="btn btn-light btn-sm">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <a href="{{ url_for('bp_tarea.delete', id=tarea.id) }}" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash"></i>
+                </a>
+            {% else %}
+                <a href="{{ url_for('bp_tarea.completado', id_tarea=tarea.id) }}" class="btn btn-light btn-sm">
+                    <i class="bi bi-pencil"></i>
+                    {{ 'Marcar como pendiente' if tarea.completado else 'Marcar como completado' }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="bi bi-check2-square fs-1 text-muted"></i>
+        <p class="text-muted">Todavía no existen tareas registradas</p>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+document.querySelectorAll('input[name="filtro"]').forEach((radio) => {
+
+    radio.addEventListener('change', (e) => {const filtro = e.target.value;
+    document.querySelectorAll('.tarea-card').forEach((tarea) => {
+
+    if (filtro === 'todos') {
+        tarea.classList.remove('oculto');
+    } else {
+        if (tarea.dataset.estado === filtro) {
+            tarea.classList.remove('oculto');
+        } else {
+            tarea.classList.add('oculto');
+        }}
+    });
+});
+});
+</script>
+{% endblock %}

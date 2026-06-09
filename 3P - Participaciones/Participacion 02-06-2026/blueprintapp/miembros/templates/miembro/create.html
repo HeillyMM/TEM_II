@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="modern-card">
+
+            <div class="mb-4">
+                <h2 class="fw-bold">Crear Miembro</h2>
+                <p class="text-muted mb-0">Completa los datos del nuevo miembro</p>
+            </div>
+
+            <form action="{{url_for('bp_miembro.create')}}" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nombre</label>
+                    <input 
+                        type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Ingrese el email" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Tipo de usuario</label>
+                    <select name="tipo" class="form-select" required>
+                        <option value="" disabled selected>Seleccione un tipo</option>
+                        <option value="admin">Admin</option>
+                        <option value="miembro">Miembro</option>
+                    </select>
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit" class="btn btn-pink px-4"><i class="bi bi-check-circle"></i>Guardar</button>
+                    <a href="{{url_for('bp_miembro.index')}}" class="btn btn-light">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
