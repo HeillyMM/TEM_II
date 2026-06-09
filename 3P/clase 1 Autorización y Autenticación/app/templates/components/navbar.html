@@ -1,0 +1,12 @@
+<nav>
+    <a href="{{url_for('main_bp.index')}}"></a>
+
+    {% if current_user.is_authenticated %}
+    <a href="{{url_for('main_bp.dashboard')}}">dashboard</a>
+    <a href="{{url_for('auth_bp.logout')}}">Logout</a>
+    {% else %}
+    <a href="{{url_for('auth_bp.login')}}">Login</a>
+    <a href="{{url_for('auth_bp.register')}}">Register</a>
+    {% endif %}
+</nav>
+<hr>

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Inicio {% endblock %}
+
+{% block content %}
+<h1> Sistema de autenticación </h1>
+
+{% if current_user.is_authenticated %}
+
+<h3> Bienvenido al sistema {{current_user.username}}</h3>
+
+{% endif %}
+
+
+
+{% endblock %}
